@@ -4,7 +4,7 @@ cli-proxy-api
 
 # Configuration
 .env
-# config.yaml  # Uncomment this if you don't want to commit config.yaml
+config.yaml  # Uncomment this if you don't want to commit config.yaml
 
 # Generated content
 bin/*
