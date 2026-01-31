@@ -12,6 +12,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 
@@ -382,6 +383,14 @@ func main() {
 	}
 	if cfg == nil {
 		cfg = &config.Config{}
+	}
+
+	// Override port from PORT environment variable (used by cloud platforms like Render)
+	if portEnv := os.Getenv("PORT"); portEnv != "" {
+		if port, err := strconv.Atoi(portEnv); err == nil && port > 0 {
+			cfg.Port = port
+			log.Infof("Port overridden by PORT environment variable: %d", port)
+		}
 	}
 
 	// In cloud deploy mode, check if we have a valid configuration
