@@ -338,7 +338,7 @@ func (s *Server) setupRoutes() {
 	}
 
 	// Root endpoint
-	s.engine.GET("/", func(c *gin.Context) {
+	rootHandler := func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "CLI Proxy API Server",
 			"endpoints": []string{
@@ -347,7 +347,9 @@ func (s *Server) setupRoutes() {
 				"GET /v1/models",
 			},
 		})
-	})
+	}
+	s.engine.GET("/", rootHandler)
+	s.engine.HEAD("/", rootHandler) // Support HEAD requests for health checks
 	s.engine.POST("/v1internal:method", geminiCLIHandlers.CLIHandler)
 
 	// OAuth callback endpoints (reuse main server port)
